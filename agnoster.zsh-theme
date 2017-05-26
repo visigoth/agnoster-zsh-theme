@@ -80,7 +80,7 @@ prompt_context() {
 prompt_git() {
   local color ref
   is_dirty() {
-    test -n "$(git status --porcelain --ignore-submodules)"
+    test -n "$(git status --porcelain --ignore-submodules --untracked-files=no)"
   }
   ref="$vcs_info_msg_0_"
   if [[ -n "$ref" ]]; then
@@ -103,7 +103,16 @@ prompt_git() {
 
 # Dir: current working directory
 prompt_dir() {
-  prompt_segment blue $PRIMARY_FG ' %~ '
+  local _dir
+  local -a _dirs
+  _dir=$(shrink_path -l -t)
+  _dirs=(${(@s|/|)_dir})
+  if [[ $#_dirs -gt 3 ]]; then
+    _dirs=($_dirs[-3,-1])
+    _dirs=('...' $_dirs)
+  fi
+  _dir=${(j:/:)_dirs}
+  prompt_segment blue $PRIMARY_FG " $_dir "
 }
 
 # Status:
