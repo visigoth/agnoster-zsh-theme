@@ -80,7 +80,8 @@ prompt_context() {
 prompt_git() {
   local color ref
   is_dirty() {
-    test -n "$(git status --porcelain --ignore-submodules --untracked-files=no)"
+    test -n "$(git diff-index --no-ext-diff --quiet --cached HEAD)"
+    #test -n "$(git status --porcelain --ignore-submodules --untracked-files=no)"
   }
   ref="$vcs_info_msg_0_"
   if [[ -n "$ref" ]]; then
