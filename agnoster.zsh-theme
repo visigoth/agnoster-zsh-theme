@@ -139,6 +139,14 @@ prompt_virtualenv() {
   fi
 }
 
+# Display AOSP build information
+prompt_aosp() {
+  if [[ -n $ANDROID_BUILD_TOP ]]; then
+    color=green
+    prompt_segment $color $PRIMARY_FG " $TARGET_PRODUCT "
+  fi
+}
+
 ## Main prompt
 prompt_agnoster_main() {
   RETVAL=$?
@@ -147,6 +155,7 @@ prompt_agnoster_main() {
   prompt_context
   prompt_virtualenv
   prompt_dir
+  prompt_aosp
   prompt_git
   prompt_end
 }
